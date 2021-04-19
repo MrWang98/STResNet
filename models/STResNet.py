@@ -149,7 +149,7 @@ class STResNet(nn.Module):
                 self.save_model("best")
                 self.best_rmse = test_rmse
                 self.best_mae = test_mae
-            return test_rmse,test_mae
+            # return test_rmse,test_mae
 
     def evaluate(self, X_test, Y_test):
         """
