@@ -61,6 +61,6 @@ if __name__ == '__main__':
     if gpu_available:
         model = model.to(gpu)
     X_test_torch = [torch.Tensor(x) for x in X_test]
-    model.train_model(train_loader, X_test_torch, torch.Tensor(Y_test))
+    rmse_list,mae_list = model.train_model(train_loader, X_test_torch, torch.Tensor(Y_test))
     model.load_model("best")
     model.evaluate(X_test_torch, torch.Tensor(Y_test))

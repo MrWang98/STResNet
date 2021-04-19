@@ -124,6 +124,8 @@ class STResNet(nn.Module):
         optimizer = optim.Adam(self.parameters(), lr = self.learning_rate)
         start_time = time.time()
         epoch_loss = []
+        rmse_list = []
+        mae_list = []
         for ep in range(self.epoches):
             self.train()
             for i, (xc, xp, xt, ext, y) in enumerate(train_loader):
@@ -144,12 +146,15 @@ class STResNet(nn.Module):
             print("[%.2fs] ep %d, loss %.4f"%(time.time() - start_time, ep, np.mean(epoch_loss)))
             epoch_loss = []
             test_rmse, test_mae = self.evaluate(test_x, test_y)
+            rmse_list.append(test_rmse)
+            mae_list.append(test_mae)
             print("[%.2fs] ep %d test rmse %.4f, mae %.4f" % (time.time() - start_time, ep, test_rmse, test_mae))
             if test_rmse < self.best_rmse:
                 self.save_model("best")
                 self.best_rmse = test_rmse
                 self.best_mae = test_mae
-            # return test_rmse,test_mae
+        return rmse_list,mae_list
+
 
     def evaluate(self, X_test, Y_test):
         """
